@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import "./Hero.css";
-import defaultProfile from "../../assets/images/profile.jpg";
 import { TypeAnimation } from "react-type-animation";
-import API from "../../api/axios";
+import { useProfile } from "../../hooks/useProfile";
+import ProfileImage from "../ProfileImage";
 import { getImageUrl } from "../../utils/imageUrl";
 import { downloadFile } from "../../utils/downloadFile";
 
@@ -16,29 +15,19 @@ const defaultRoles = [
 ];
 
 function Hero() {
-  const [profile, setProfile] = useState(null);
-
-  useEffect(() => {
-    API.get("/profile")
-      .then(({ data }) => setProfile(data))
-      .catch(() => {});
-  }, []);
+  const { profile, ready } = useProfile();
 
   const roles =
     profile?.roles?.length > 0
       ? profile.roles.flatMap((r) => [r, 2000])
       : defaultRoles;
 
-  const imageSrc = profile?.image
-    ? getImageUrl(profile.image, profile.updatedAt)
-    : defaultProfile;
-
   const handleDownload = () => {
     if (!profile?.resume) return;
     const name = profile.name
       ? `${profile.name.replace(/\s+/g, "_")}_Resume.pdf`
       : "Resume.pdf";
-    downloadFile(getImageUrl(profile.resume), name);
+    downloadFile(getImageUrl(profile.resume, profile.updatedAt), name);
   };
 
   return (
@@ -79,9 +68,10 @@ function Hero() {
         <div className="purple-ring"></div>
         <div className="dots-pattern"></div>
         <div className="profile-photo-wrap hero-profile">
-          <img
-            key={profile?.updatedAt || "default-hero"}
-            src={imageSrc}
+          <ProfileImage
+            profile={profile}
+            ready={ready}
+            className="hero-profile-img"
             alt="profile"
           />
         </div>

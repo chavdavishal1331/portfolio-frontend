@@ -1,29 +1,18 @@
-import { useEffect, useState } from "react";
 import "./About.css";
-import defaultProfile from "../../assets/images/profile.jpg";
-import API from "../../api/axios";
+import { useProfile } from "../../hooks/useProfile";
+import ProfileImage from "../ProfileImage";
 import { getImageUrl } from "../../utils/imageUrl";
 import { downloadFile } from "../../utils/downloadFile";
 
 function About() {
-  const [profile, setProfile] = useState(null);
-
-  useEffect(() => {
-    API.get("/profile")
-      .then(({ data }) => setProfile(data))
-      .catch(() => {});
-  }, []);
-
-  const imageSrc = profile?.image
-    ? getImageUrl(profile.image, profile.updatedAt)
-    : defaultProfile;
+  const { profile, ready } = useProfile();
 
   const handleDownload = () => {
     if (!profile?.resume) return;
     const name = profile.name
       ? `${profile.name.replace(/\s+/g, "_")}_Resume.pdf`
       : "Resume.pdf";
-    downloadFile(getImageUrl(profile.resume), name);
+    downloadFile(getImageUrl(profile.resume, profile.updatedAt), name);
   };
 
   return (
@@ -39,9 +28,10 @@ function About() {
           <div className="square square2"></div>
           <div className="square square3"></div>
           <div className="profile-photo-wrap about-profile image-frame">
-            <img
-              key={profile?.updatedAt || "default-about"}
-              src={imageSrc}
+            <ProfileImage
+              profile={profile}
+              ready={ready}
+              className="about-profile-img"
               alt="about"
             />
           </div>
