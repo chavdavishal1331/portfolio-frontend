@@ -1,23 +1,24 @@
 import { useCallback, useEffect, useState } from "react";
 import API from "../api/axios";
 
-export function useProfile() {
-  const [profile, setProfile] = useState(null);
-  const [ready, setReady] = useState(false);
+/** Fetch list from API; refetch when user returns to tab (admin save → switch tab). */
+export function useApiList(endpoint) {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     try {
-      const { data } = await API.get("/profile", {
+      const { data } = await API.get(endpoint, {
         params: { _t: Date.now() },
         headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
       });
-      setProfile(data && data._id ? data : null);
+      setItems(Array.isArray(data) ? data : []);
     } catch {
-      setProfile(null);
+      setItems([]);
     } finally {
-      setReady(true);
+      setLoading(false);
     }
-  }, []);
+  }, [endpoint]);
 
   useEffect(() => {
     load();
@@ -34,5 +35,5 @@ export function useProfile() {
     };
   }, [load]);
 
-  return { profile, ready, reload: load };
+  return { items, loading, reload: load };
 }

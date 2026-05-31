@@ -1,17 +1,11 @@
-import { useEffect, useState } from "react";
 import "./Skills.css";
-import API from "../../api/axios";
 import { getSkillIcon } from "../../utils/skillIcons";
+import { useApiList } from "../../hooks/useApiList";
 
 function Skills() {
-  const [skills, setSkills] = useState([]);
+  const { items: skills, loading } = useApiList("/skills");
 
-  useEffect(() => {
-    API.get("/skills")
-      .then(({ data }) => setSkills(data || []))
-      .catch(() => {});
-  }, []);
-
+  if (loading) return null;
   if (skills.length === 0) return null;
 
   return (

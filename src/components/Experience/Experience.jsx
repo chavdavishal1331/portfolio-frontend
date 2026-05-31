@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react";
 import "./Experience.css";
-import API from "../../api/axios";
+import { useApiList } from "../../hooks/useApiList";
 
 function Experience() {
-  const [experience, setExperience] = useState([]);
+  const { items: experience, loading } = useApiList("/experience");
 
-  useEffect(() => {
-    API.get("/experience")
-      .then(({ data }) => setExperience(data || []))
-      .catch(() => {});
-  }, []);
-
+  if (loading) return null;
   if (experience.length === 0) return null;
 
   return (

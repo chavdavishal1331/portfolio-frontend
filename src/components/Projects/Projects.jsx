@@ -1,17 +1,11 @@
-import { useEffect, useState } from "react";
 import "./Projects.css";
-import API from "../../api/axios";
 import { getImageUrl } from "../../utils/imageUrl";
+import { useApiList } from "../../hooks/useApiList";
 
 function Projects() {
-  const [projects, setProjects] = useState([]);
+  const { items: projects, loading } = useApiList("/projects");
 
-  useEffect(() => {
-    API.get("/projects")
-      .then(({ data }) => setProjects(data || []))
-      .catch(() => {});
-  }, []);
-
+  if (loading) return null;
   if (projects.length === 0) return null;
 
   return (
