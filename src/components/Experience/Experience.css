@@ -1,0 +1,143 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.experience{
+    padding:100px 8%;
+    background:#050816;
+}
+
+.experience-title{
+    text-align:center;
+    margin-bottom:70px;
+}
+
+.experience-title span{
+    color:#8B5CF6;
+    font-size:18px;
+    font-weight:600;
+}
+
+.experience-title h2{
+    font-size:45px;
+    margin-top:10px;
+    color:white;
+}
+
+.timeline{
+    max-width:900px;
+    margin:auto;
+    position:relative;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:25px;
+    top:0;
+    width:3px;
+    height:100%;
+    background:#8B5CF6;
+}
+
+.timeline-item{
+    position:relative;
+    margin-bottom:50px;
+    padding-left:80px;
+}
+
+.timeline-dot{
+    width:18px;
+    height:18px;
+    border-radius:50%;
+
+    position:absolute;
+    left:17px;
+    top:15px;
+}
+
+.timeline-content{
+    background:#111827;
+    border:1px solid #1f2937;
+    border-radius:15px;
+    padding:25px;
+    transition:.4s;
+}
+
+.timeline-content:hover{
+    transform:translateY(-8px);
+    border-color:var(--company-color);
+    box-shadow:0 0 20px var(--company-color);
+}
+
+.timeline-content h3{
+    color:white;
+    margin-bottom:10px;
+    font-size:22px;
+}
+
+.timeline-content h4{
+    margin-bottom:10px;
+    font-size:18px;
+}
+
+.experience-year{
+    color:#d1d5db;
+    margin-top:10px;
+    margin-bottom:15px;
+    font-size:15px;
+}
+
+.experience-duration{
+    display:inline-block;
+    padding:8px 15px;
+    border:1px solid;
+    border-radius:20px;
+
+    font-size:14px;
+    font-weight:600;
+}
+
+@media(max-width:768px){
+
+    .experience{
+        padding:80px 5%;
+    }
+
+    .experience-title h2{
+        font-size:35px;
+    }
+
+    .timeline-item{
+        padding-left:60px;
+    }
+
+    .timeline::before{
+        left:20px;
+    }
+
+    .timeline-dot{
+        left:12px;
+    }
+
+    .timeline-content h3{
+        font-size:18px;
+    }
+}
+
+@media(max-width:480px){
+
+    .timeline-item{
+        padding-left:50px;
+    }
+
+    .timeline-content{
+        padding:20px;
+    }
+
+    .experience-title h2{
+        font-size:30px;
+    }
+}
