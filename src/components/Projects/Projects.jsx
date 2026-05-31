@@ -26,7 +26,8 @@ function Projects() {
           <div className="project-card" key={project._id}>
             {project.image && (
               <img
-                src={getImageUrl(project.image)}
+                key={`${project._id}-${project.updatedAt}`}
+                src={getImageUrl(project.image, project.updatedAt)}
                 alt={project.title}
                 className="project-image"
               />

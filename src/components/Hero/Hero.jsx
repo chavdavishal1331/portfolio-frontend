@@ -30,7 +30,7 @@ function Hero() {
       : defaultRoles;
 
   const imageSrc = profile?.image
-    ? getImageUrl(profile.image)
+    ? getImageUrl(profile.image, profile.updatedAt)
     : defaultProfile;
 
   const handleDownload = () => {
@@ -79,7 +79,11 @@ function Hero() {
         <div className="purple-ring"></div>
         <div className="dots-pattern"></div>
         <div className="profile-photo-wrap hero-profile">
-          <img src={imageSrc} alt="profile" />
+          <img
+            key={profile?.updatedAt || "default-hero"}
+            src={imageSrc}
+            alt="profile"
+          />
         </div>
       </div>
     </section>

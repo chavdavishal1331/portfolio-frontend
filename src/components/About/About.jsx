@@ -15,7 +15,7 @@ function About() {
   }, []);
 
   const imageSrc = profile?.image
-    ? getImageUrl(profile.image)
+    ? getImageUrl(profile.image, profile.updatedAt)
     : defaultProfile;
 
   const handleDownload = () => {
@@ -39,7 +39,11 @@ function About() {
           <div className="square square2"></div>
           <div className="square square3"></div>
           <div className="profile-photo-wrap about-profile image-frame">
-            <img src={imageSrc} alt="about" />
+            <img
+              key={profile?.updatedAt || "default-about"}
+              src={imageSrc}
+              alt="about"
+            />
           </div>
         </div>
 
