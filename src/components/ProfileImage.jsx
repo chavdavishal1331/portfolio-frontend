@@ -1,36 +1,27 @@
-import { useEffect, useState } from "react";
 import defaultProfile from "../assets/images/profile.jpg";
 import { getImageUrl } from "../utils/imageUrl";
+import { usePreloadedSrc } from "../hooks/usePreloadedSrc";
 import "./ProfileImage.css";
 
-/**
- * Profile photo — hidden until the correct image has loaded (no flash of old/cached image).
- */
 function ProfileImage({ profile, ready, className, alt = "profile" }) {
-  const [loaded, setLoaded] = useState(false);
-
-  const src =
+  const targetUrl =
     ready && profile?.image
-      ? getImageUrl(profile.image, profile.updatedAt)
+      ? getImageUrl(profile.image, `${profile.updatedAt}-${profile.image}`)
       : ready
         ? defaultProfile
         : null;
 
-  useEffect(() => {
-    setLoaded(false);
-  }, [src]);
+  const { src, ready: imgReady } = usePreloadedSrc(targetUrl);
 
-  if (!ready || !src) {
+  if (!ready || !imgReady || !src) {
     return <div className={`${className} profile-image-placeholder`} aria-hidden />;
   }
 
   return (
     <img
-      className={`${className} ${loaded ? "profile-image-loaded" : "profile-image-loading"}`}
+      className={`${className} profile-image-loaded`}
       src={src}
       alt={alt}
-      onLoad={() => setLoaded(true)}
-      onError={() => setLoaded(true)}
     />
   );
 }
